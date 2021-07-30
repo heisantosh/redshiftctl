@@ -6,9 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strconv"
-
 	"os/exec"
+	"strconv"
 )
 
 const (
