@@ -1,16 +1,21 @@
 # redshiftctl
+
 Tool to manually control monitor color temperature.
 
 ## Installation
+
 ### Pre requisites
+
 Make sure to have redshift installed for your Linux system.
 
 ### Using go
+
 ```bash
 go install github.com/heisantosh/redshiftctl@latest
 ```
 
 ## Usage
+
 ```text
 redshiftctl (com.github.heisantosh.redshiftctl) 0.1.0
 
@@ -42,33 +47,42 @@ CONFIGURATION
 ### Examples
 
 #### Toggle current state
+
 ```bash
 redshiftctl toggle
 ```
+
 #### Toggle state on
+
 ```bash
 redshiftctl toggle on
 ```
 
 #### Set color temperature
+
 ```bash
 redshiftctl set 4500
 ```
 
 #### Decrease color temperature
+
 ```bash
 redshiftctl decrease 500
 ```
 
 #### Get the current color temperature
+
 ```bash
 redshiftctl get temperature
 ```
 
-## Polybar 
+## Polybar
 
-This was initially designed for use in a polybar custom script module. The goal was to support mappings for scroll up and scroll down actions to decrease and increase color temperatures respectively as well as toggling redshift on/off. 
+This was initially designed for use in a polybar custom script module. The goal was to support mappings for scroll up and scroll down actions to decrease and increase color temperatures respectively as well as toggling redshift on/off.
 
+<video>
+<source src="https://raw.githubusercontent.com/heisantosh/redshiftctl/main/polybar_recording.webm" type="video/webm" />
+</vidoe>
 ### redshift module
 ```ini
 [module/redshift]
@@ -83,15 +97,22 @@ hook-2 = redshiftctl toggle on && redshiftctl increase 500 && ~/.config/polybar/
 hook-3 = redshiftctl toggle on && redshiftctl decrease 500 && ~/.config/polybar/default/bin/redshift/state.sh
 
 initial = 1
-# Toggle on/off on left click.
-click-left = polybar-msg -p %pid% hook redshift 2
-# Increase color temperature on scroll up.
-scroll-up = polybar-msg -p %pid% hook redshift 3
-# Decrease color temperature on scroll down.
-scroll-down = polybar-msg -p %pid% hook redshift 4
-```
 
-### `state.sh` for module content 
+# Toggle on/off on left click.
+
+click-left = polybar-msg -p %pid% hook redshift 2
+
+# Increase color temperature on scroll up.
+
+scroll-up = polybar-msg -p %pid% hook redshift 3
+
+# Decrease color temperature on scroll down.
+
+scroll-down = polybar-msg -p %pid% hook redshift 4
+
+````
+
+### `state.sh` for module content
 ```bash
 #/bin/bash
 
@@ -103,4 +124,4 @@ if [ "${state}" = "on" ]; then
 else
     echo "%{F#42A5F5} %{F-}"
 fi
-```
+````
