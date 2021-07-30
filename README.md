@@ -7,7 +7,7 @@ Make sure to have redshift installed for your Linux system.
 
 ### Using go
 ```bash
-go install github.com/heisantosh/redshiftctl
+go install github.com/heisantosh/redshiftctl@latest
 ```
 
 ## Usage
