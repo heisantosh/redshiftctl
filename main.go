@@ -90,8 +90,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	_ = args
-
 	firstRunCheck()
 	runCommand(args)
 }
@@ -117,6 +115,7 @@ func parseArgs() (cmdArgs, error) {
 	}
 
 	args.cmd = os.Args[1]
+
 	switch args.cmd {
 	case cmdDecrease, cmdIncrease:
 		v, err := strconv.Atoi(os.Args[2])
@@ -124,22 +123,26 @@ func parseArgs() (cmdArgs, error) {
 			return args, errors.New("invalid " + os.Args[2] + " value")
 		}
 		args.temperatureDelta = v
+
 	case cmdSet:
 		v, err := strconv.Atoi(os.Args[2])
 		if err != nil {
 			return args, errors.New("invalid " + os.Args[2] + " value")
 		}
 		args.temperature = v
+
 	case cmdGet:
 		args.getState = os.Args[2]
 		if !(args.getState == stateState || args.getState == stateTemperature) {
 			return args, errors.New("invalid get arg" + args.getState)
 		}
+
 	case cmdToggle:
 		args.toggleState = os.Args[2]
 		if !(args.toggleState == stateOn || args.toggleState == stateOff) {
 			return args, errors.New("invalid " + args.toggleState + " value")
 		}
+
 	default:
 		return args, errors.New("unknown command " + args.cmd)
 	}
@@ -175,35 +178,29 @@ func runCommand(args cmdArgs) {
 
 	switch args.cmd {
 	case cmdToggle:
-		if args.toggleState == "" {
-			if state.State == stateOn {
-				toggleOff()
-				state.State = stateOff
-			} else {
-				setTemperature(state.Temperature)
-				state.State = stateOn
-			}
+		if (args.toggleState == "" && state.State == stateOn) || args.toggleState == stateOff {
+			toggleOff()
+			state.State = stateOff
 		} else {
-			if args.toggleState == stateOff {
-				toggleOff()
-				state.State = stateOff
-			} else {
-				setTemperature(state.Temperature)
-				state.State = stateOn
-			}
+			setTemperature(state.Temperature)
+			state.State = stateOn
 		}
+
 	case cmdIncrease:
 		// TODO: upper limit check
 		setTemperature(state.Temperature + args.temperatureDelta)
 		state.Temperature = state.Temperature + args.temperatureDelta
+
 	case cmdDecrease:
 		// TODO: lower limit check
 		setTemperature(state.Temperature - args.temperatureDelta)
 		state.Temperature = state.Temperature - args.temperatureDelta
+
 	case cmdSet:
 		// TODO: limit check
 		setTemperature(args.temperature)
 		state.Temperature = args.temperature
+
 	case cmdGet:
 		switch args.getState {
 		case stateState:
@@ -211,12 +208,14 @@ func runCommand(args cmdArgs) {
 		case stateTemperature:
 			fmt.Println(state.Temperature)
 		}
+
 	case cmdLoad:
 		if state.State == stateOff {
 			toggleOff()
 		} else {
 			setTemperature(state.Temperature)
 		}
+
 	case cmdHelp:
 		help()
 		return
