@@ -80,9 +80,8 @@ redshiftctl get temperature
 
 This was initially designed for use in a polybar custom script module. The goal was to support mappings for scroll up and scroll down actions to decrease and increase color temperatures respectively as well as toggling redshift on/off.
 
-<video>
-<source src="https://raw.githubusercontent.com/heisantosh/redshiftctl/main/polybar_recording.webm" type="video/webm" />
-</vidoe>
+![Polybar redshift](https://raw.githubusercontent.com/heisantosh/redshiftctl/main/polybar_redshift.gif)
+
 ### redshift module
 ```ini
 [module/redshift]
