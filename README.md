@@ -78,7 +78,7 @@ redshiftctl get temperature
 
 ## Polybar
 
-This was initially designed for use in a polybar custom script module. The goal was to support mappings for scroll up and scroll down actions to decrease and increase color temperatures respectively as well as toggling redshift on/off.
+This was initially designed for use in a polybar module. The goal was to support mappings for scroll up and scroll down actions to decrease and increase color temperatures respectively as well as toggling redshift on/off.
 
 ![Polybar redshift](https://raw.githubusercontent.com/heisantosh/redshiftctl/main/polybar_redshift.gif)
 
