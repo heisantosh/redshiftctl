@@ -11,12 +11,11 @@ import (
 )
 
 const (
+	// Application metadata
 	appId   = "com.github.heisantosh.redshiftctl"
 	appName = "redshiftctl"
 	version = "0.1.0"
-)
 
-const (
 	// Redshift on/off state.
 	stateOn  = "on"
 	stateOff = "off"
@@ -70,11 +69,13 @@ CONFIGURATION
   temperature=4500`)
 }
 
+// redshiftState represents current state of redshift.
 type redshiftState struct {
 	State       string `json:"state"`
 	Temperature int    `json:"temperature"`
 }
 
+// cmdArgs holds the command and the provided arguments for the command.
 type cmdArgs struct {
 	cmd              string
 	toggleState      string
@@ -94,6 +95,7 @@ func main() {
 	runCommand(args)
 }
 
+// firstRunCheck makes sure the config files are in place.
 func firstRunCheck() {
 	_, err := os.Stat(configFile())
 	if os.IsNotExist(err) {
@@ -102,6 +104,7 @@ func firstRunCheck() {
 	}
 }
 
+// parseArgs parses and valideates the CLI arguments.
 func parseArgs() (cmdArgs, error) {
 	args := cmdArgs{}
 
@@ -165,10 +168,12 @@ func stateStore(state redshiftState) {
 	_ = os.WriteFile(configFile(), b, 0664)
 }
 
+// toggleOff turns off redshift by resetting color temperature.
 func toggleOff() {
 	exec.Command("redshift", "-o", "-x").Run()
 }
 
+// setTemperature manually sets the color temperature in one shot mode.
 func setTemperature(temp int) {
 	exec.Command("redshift", "-P", "-o", "-O", strconv.Itoa(temp)).Run()
 }
@@ -187,17 +192,14 @@ func runCommand(args cmdArgs) {
 		}
 
 	case cmdIncrease:
-		// TODO: upper limit check
 		setTemperature(state.Temperature + args.temperatureDelta)
 		state.Temperature = state.Temperature + args.temperatureDelta
 
 	case cmdDecrease:
-		// TODO: lower limit check
 		setTemperature(state.Temperature - args.temperatureDelta)
 		state.Temperature = state.Temperature - args.temperatureDelta
 
 	case cmdSet:
-		// TODO: limit check
 		setTemperature(args.temperature)
 		state.Temperature = args.temperature
 
